@@ -8,14 +8,18 @@
     </head>
     <body>
        <div class="header">Title</div>
-       <div><button id="addRoute">Add route</button></div>
-       <div style="display:none" id="routeInput"><form>
-             Start<input type="text" id="start">
-             <br>
-             Stop<input type="text" id="stop">
-             </form>
+        <div class="menu-right">
+            <div class="menu-add-route">
+               <div><button id="addRoute">Add route</button></div>
+               <div style="display:none" id="routeInput"><form>
+                     Start<input type="text" id="start">
+                     <br>
+                     Stop<input type="text" id="stop">
+                     </form>
 
-             <button id="saveRoute">Save</button>
+                     <button id="saveRoute">Save</button>
+                </div>
+            </div>
         </div>
         <div id="map-canvas"></div>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>

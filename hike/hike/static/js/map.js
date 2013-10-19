@@ -17,7 +17,7 @@ function enableRouteInput(event) {
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-     })
+     });
 }
 
 function submitRoute() {
