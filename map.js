@@ -22,6 +22,18 @@ function initialize() {
     }
 
     map = new google.maps.Map(document.getElementById('map-canvas'),
-                              mapOptions);
+          mapOptions);
+
+    google.maps.event.addListener(map, 'click', function(event) {
+        placeMarker(event.latLng);
+    });
+}
+function placeMarker(location) {
+    var marker = new google.maps.Marker({
+         position: location,
+         map: map
+         });
+
+    console.log(location.toString());
 }
 google.maps.event.addDomListener(window, 'load', initialize);
