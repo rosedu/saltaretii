@@ -1,4 +1,6 @@
 var map;
+var edit="false", placeListener;
+
 function initialize() {
     var mapOptions = {
         zoom: 18,
@@ -24,10 +26,11 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
 
-    google.maps.event.addListener(map, 'click', function(event) {
-        placeMarker(event.latLng);
-    });
-}
+    getEditStatus();
+
+    }
+
+//
 function placeMarker(location) {
     var marker = new google.maps.Marker({
          position: location,
@@ -36,4 +39,24 @@ function placeMarker(location) {
 
     console.log(location.toString());
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function submit() {
+     if (edit == "false") {
+        edit = "true"
+        placeListener = google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+        });
+
+     } else {
+         edit = "false"
+         placeListener.remove();
+     }
+
+     getEditStatus();
+}
+
+function getEditStatus() {
+     document.getElementById("onoff").innerHTML = edit;
+}
