@@ -124,11 +124,23 @@ function drawRoutes() {
 }
 
 function drawRoute(event) {
-    $element = $(event).currentTarget;
-    console.log('drawRoute');
+    //map.clearOverlays(); //TODO: check if this works   
+    points = $(event.currentTarget).data("points");
+	var coords = [];
+	for (var i = 0; i < points.length; ++i) {
+		coords.push(new google.maps.LatLng(points[i][0], points[i][1]));
+	}
+    var polyline_route = new google.maps.Polyline({
+    path: coords,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+	polyline_route.setMap(map);
     return false;
 }
-
+    
 function saveRoutes(routes) {
     $.ajax({
         type: 'POST',
