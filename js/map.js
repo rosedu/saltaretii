@@ -1,5 +1,26 @@
+$( document ).ready(function() {
+
 var map;
 var edit="false", placeListener;
+
+function submit() {
+     if (edit == "false") {
+        edit = "true"
+        placeListener = google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+        });
+
+     } else {
+         edit = "false"
+         placeListener.remove();
+     }
+
+     getEditStatus();
+}
+
+function getEditStatus() {
+     $("#onoff").text(edit);
+}
 
 function initialize() {
     var mapOptions = {
@@ -28,7 +49,7 @@ function initialize() {
 
     getEditStatus();
 
-    }
+}
 
 //
 function placeMarker(location) {
@@ -41,22 +62,5 @@ function placeMarker(location) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+});
 
-function submit() {
-     if (edit == "false") {
-        edit = "true"
-        placeListener = google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
-
-     } else {
-         edit = "false"
-         placeListener.remove();
-     }
-
-     getEditStatus();
-}
-
-function getEditStatus() {
-     document.getElementById("onoff").innerHTML = edit;
-}
