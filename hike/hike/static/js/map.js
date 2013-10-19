@@ -42,7 +42,7 @@ function submitRoute() {
 
 }
 
-function checkRouteSanity(route) {
+function checkRouteSanity(RouteObject) {
      if (RouteObject.start == "") {
          alert("Enter the name of the starting point!");
          return false;
