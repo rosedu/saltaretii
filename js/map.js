@@ -1,9 +1,11 @@
-$( document ).ready(function() {
-
 var map;
 var edit="false", placeListener;
 
-function submit() {
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$('#onoff').on('click', submit);
+
+function submit(event) {
      if (edit == "false") {
         edit = "true"
         placeListener = google.maps.event.addListener(map, 'click', function(event) {
@@ -60,7 +62,4 @@ function placeMarker(location) {
 
     console.log(location.toString());
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
-});
 
