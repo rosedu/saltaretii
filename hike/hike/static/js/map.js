@@ -1,4 +1,12 @@
 var map, routeInput=false, placeListener;
+gle.maps.Polyline({
+        path: flightPlanCoordinates,
+	       geodesic: true,
+		      strokeColor: '#FF0000',
+			     strokeOpacity: 1.0,
+				    strokeWeight: 2
+				      });
+
 var currRoutePoints = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -34,6 +42,7 @@ function submitRoute() {
 
      placeListener.remove();
      saveRoutes(newRoute);
+     drawRoute(newRoute);
 
      // Clean the current route
      currRoutePoints = [];
@@ -74,6 +83,33 @@ function placeMarker(location) {
          });
 
     console.log(location);
+}
+
+function drawRoute(newRoute) {
+    if (typeof newRoute == "undefined") {
+        console.log("Huston, we have a problem...");
+        return;
+    }
+
+    var routeCoords = [];
+
+    for (var i = 0; i < newRoute.points.length; ++i)
+        routeCoords.push(new google.maps.LatLng(newRoute.points[i][0], newRoute.points[i][1]));
+
+    var iCanHazAPoly = new google.maps.Polyline({
+       path: routeCoords,
+       geodesic: true,
+       strokeColor: '#FF0000',
+       strokeOpacity: 0.6,
+       strokeWeight: 1.5
+    });
+
+    setAllMap(null);
+    iCanHazAPoly.setMap(map);
+}
+
+function clearRoute() {
+    setAllMap(map);
 }
 
 // Main function if this was C
