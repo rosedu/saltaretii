@@ -1,4 +1,4 @@
-var map, routeInput="false", placeListener;
+var map, routeInput=false, placeListener;
 var currRoutePoints = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -9,11 +9,11 @@ $('#saveRoute').on('click', submitRoute);
 
 // Functions for button bindings
 function enableRouteInput(event) {
-     if (routeInput == "true")
+     if (routeInput == true)
          return;
 
-     routeInput = "true";
-     $("#routeInput").show();
+     routeInput = true;
+     $("#routeInputPanel").show();
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
@@ -21,21 +21,25 @@ function enableRouteInput(event) {
 }
 
 function submitRoute() {
-     if (routeInput == "false")
+     if (routeInput == false)
          return;
 
      newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
 
-     if (checkRouteSanity(newRoute) == "false")
+     if (checkRouteSanity(newRoute) == false) {
+         console.log("iese");
          return;
+
+     }
 
      placeListener.remove();
      saveRoutes(newRoute);
 
      // Clean the current route
      currRoutePoints = [];
-     routeInput = "false";
-     $("#routeInput").hide();
+     routeInput = false;
+     $("#routeInputPanel").hide();
+
 }
 
 function checkRouteSanity(route) {
@@ -49,7 +53,7 @@ function checkRouteSanity(route) {
          return false;
      }
 
-     if (route.points.length() == 0) {
+     if (route.points.length < 2) {
          alert("Invalid route!");
          return false;
      }
