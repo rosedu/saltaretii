@@ -9,7 +9,7 @@ $('#addRoute').on('click', submitAddRoute);
 // Functions for button bindings
 function submitAddRoute(event) {
      if (edit == "false") {
-         edit = "true"
+         edit = "true";
          placeListener = google.maps.event.addListener(map, 'click', function(event) {
              placeMarker(event.latLng);
              currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
@@ -17,10 +17,11 @@ function submitAddRoute(event) {
 
 
      } else {
-         edit = "false"
+         edit = "false";
          placeListener.remove();
          newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
          console.log(newRoute);
+         saveRoutes(newRoute);
      }
 
      getAddRouteStatus();
@@ -76,4 +77,13 @@ function initialize() {
 
 }
 
-
+function saveRoutes(routes) {
+    $.ajax({
+        type: 'POST',
+        url: 'api/routes/',
+        data: JSON.stringify(newRoute),
+        dataType: "application/json",
+        processData:  false,
+        contentType: "application/json"
+    });
+}
