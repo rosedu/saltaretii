@@ -115,15 +115,18 @@ function drawRoutes() {
     $.get('api/routes/', function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
-            route_item = '<li><input class="routes-item" onClick="drawRoute()" value="' + route.start + " - " + route.stop + '" data-points="' + route.points + '"/></li>';
+            route_item = '<li><a href="#" class="routes-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a></li>';
             $list.append(route_item);
         }
+        $('.routes-item').click(drawRoute);
     });
+
 }
 
 function drawRoute(event) {
     $element = $(event).currentTarget;
     console.log('drawRoute');
+    return false;
 }
 
 function saveRoutes(routes) {
