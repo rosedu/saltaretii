@@ -24,7 +24,7 @@ function submitRoute() {
      if (routeInput == false)
          return;
 
-     newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
+     newRoute = new RouteObject($("#start").val(), $("#stop").val(), currRoutePoints);
 
      if (checkRouteSanity(newRoute) == false) {
          console.log("iese");
@@ -43,17 +43,17 @@ function submitRoute() {
 }
 
 function checkRouteSanity(route) {
-     if (route.start == "") {
+     if (RouteObject.start == "") {
          alert("Enter the name of the starting point!");
          return false;
      }
 
-     if (route.stop == "") {
+     if (RouteObject.stop == "") {
          alert("Enter the name of the final point!");
          return false;
      }
 
-     if (route.points.length < 2) {
+     if (RouteObject.points.length < 2) {
          alert("Invalid route!");
          return false;
      }
@@ -61,7 +61,7 @@ function checkRouteSanity(route) {
      return true;
 }
 
-function route(start, stop, points) {
+function RouteObject(start, stop, points) {
      this.start = start;
      this.stop =  stop;
      this.points = currRoutePoints;
@@ -102,6 +102,28 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
 
+    drawElements();
+}
+
+function drawElements() {
+    // Do GET api call and fetch routes.
+    drawRoutes();
+}
+
+function drawRoutes() {
+    $list = $('.menu-routes .routes-list');
+    $.get('api/routes/', function(data) {
+        for (var i = 0; i < data.objects.length; ++i) {
+            route = data.objects[i];
+            route_item = '<li><input class="routes-item" onClick="drawRoute()" value="' + route.start + " - " + route.stop + '" data-points="' + route.points + '"/></li>';
+            $list.append(route_item);
+        }
+    });
+}
+
+function drawRoute(event) {
+    $element = $(event).currentTarget;
+    console.log('drawRoute');
 }
 
 function saveRoutes(routes) {
