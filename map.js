@@ -4,7 +4,8 @@ function initialize() {
     zoom: 18,
     center: new google.maps.LatLng(45.7291, 24.7019),
     mapTypeControlOptions: {
-    mapTypeIds: [google.maps.MapTypeId.TERRAIN]
+    mapTypeIds: [google.maps.MapTypeId.TERRAIN, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE google.maps.MapTypeId.HYBRID]
+    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
          },
     mapTypeId: google.maps.MapTypeId.TERRAIN
 
