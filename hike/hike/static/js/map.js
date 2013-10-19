@@ -1,41 +1,66 @@
-var map, edit="false", placeListener;
+var map, routeInput="false", placeListener;
 var currRoutePoints = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
 // Button bindings
-$('#addRoute').on('click', submitAddRoute);
+$('#addRoute').on('click', enableRouteInput);
+$('#saveRoute').on('click', submitRoute);
 
 // Functions for button bindings
-function submitAddRoute(event) {
-     if (edit == "false") {
-         edit = "true";
-         placeListener = google.maps.event.addListener(map, 'click', function(event) {
-             placeMarker(event.latLng);
-             currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-});
+function enableRouteInput(event) {
+     if (routeInput == "true")
+         return;
 
-
-     } else {
-         edit = "false";
-         placeListener.remove();
-         newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
-         console.log(newRoute);
-         saveRoutes(newRoute);
-     }
-
-     getAddRouteStatus();
+     routeInput = "true";
+     $("#routeInput").show();
+     placeListener = google.maps.event.addListener(map, 'click', function(event) {
+         placeMarker(event.latLng);
+         currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
+     })
 }
 
-function getAddRouteStatus() {
-     $("#addRoute").text(edit);
+function submitRoute() {
+     if (routeInput == "false")
+         return;
+
+     newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
+
+     if (checkRouteSanity(newRoute) == "false")
+         return;
+
+     placeListener.remove();
+     saveRoutes(newRoute);
+
+     // Clean the current route
+     currRoutePoints = [];
+     routeInput = "false";
+     $("#routeInput").hide();
+}
+
+function checkRouteSanity(route) {
+     if (route.start == "") {
+         alert("Enter the name of the starting point!");
+         return false;
+     }
+
+     if (route.stop == "") {
+         alert("Enter the name of the final point!");
+         return false;
+     }
+
+     if (route.points.length() == 0) {
+         alert("Invalid route!");
+         return false;
+     }
+
+     return true;
 }
 
 function route(start, stop, points) {
      this.start = start;
      this.stop =  stop;
      this.points = currRoutePoints;
-     currRoutePoints = [];
 }
 
 function placeMarker(location) {
@@ -72,8 +97,6 @@ function initialize() {
 
     map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
-
-    getAddRouteStatus();
 
 }
 

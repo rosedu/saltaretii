@@ -7,14 +7,16 @@
         <link rel="stylesheet" type="text/css" href="/static/css/map.css">
     </head>
     <body>
-        <div class="header">Title</div>
-        <div><form>
+       <div class="header">Title</div>
+       <div><button id="addRoute">Add route</button></div>
+       <div style="display:none" id="routeInput"><form>
              Start<input type="text" id="start">
              <br>
              Stop<input type="text" id="stop">
              </form>
+
+             <button id="saveRoute">Save</button>
         </div>
-        <div><button id="addRoute">EditStatus</button></div>
         <div id="map-canvas"></div>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
