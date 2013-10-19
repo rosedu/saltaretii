@@ -1,29 +1,52 @@
-var map;
-var edit="false", placeListener;
+var map, edit="false", placeListener;
+var currRoutePoints = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-$('#onoff').on('click', submit);
+// Button bindings
+$('#addRoute').on('click', submitAddRoute);
 
-function submit(event) {
+// Functions for button bindings
+function submitAddRoute(event) {
      if (edit == "false") {
-        edit = "true"
-        placeListener = google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
+         edit = "true"
+         placeListener = google.maps.event.addListener(map, 'click', function(event) {
+             placeMarker(event.latLng);
+             currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
+});
+
 
      } else {
          edit = "false"
          placeListener.remove();
+         newRoute = new route($("#start").text(), $("#stop").text(), currRoutePoints);
+         console.log(newRoute);
      }
 
-     getEditStatus();
+     getAddRouteStatus();
 }
 
-function getEditStatus() {
-     $("#onoff").text(edit);
+function getAddRouteStatus() {
+     $("#addRoute").text(edit);
 }
 
+function route(start, stop, points) {
+     this.start = $("#start").text();
+     this.stop =  $("#stop").text();
+     this.points = currRoutePoints;
+     currRoutePoints = [];
+}
+
+function placeMarker(location) {
+    var marker = new google.maps.Marker({
+         position: location,
+         map: map
+         });
+
+    console.log(location);
+}
+
+// Main function if this was C
 function initialize() {
     var mapOptions = {
         zoom: 18,
@@ -49,17 +72,8 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
 
-    getEditStatus();
+    getAddRouteStatus();
 
 }
 
-//
-function placeMarker(location) {
-    var marker = new google.maps.Marker({
-         position: location,
-         map: map
-         });
-
-    console.log(location.toString());
-}
 
