@@ -3,7 +3,11 @@ function initialize() {
   var mapOptions = {
     zoom: 18,
     center: new google.maps.LatLng(45.7291, 24.7019),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeControlOptions: {
+    mapTypeIds: [google.maps.MapTypeId.TERRAIN]
+         },
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
