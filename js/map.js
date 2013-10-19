@@ -19,7 +19,7 @@ function submitAddRoute(event) {
      } else {
          edit = "false"
          placeListener.remove();
-         newRoute = new route($("#start").text(), $("#stop").text(), currRoutePoints);
+         newRoute = new route($("#start").val(), $("#stop").val(), currRoutePoints);
          console.log(newRoute);
      }
 
@@ -31,8 +31,8 @@ function getAddRouteStatus() {
 }
 
 function route(start, stop, points) {
-     this.start = $("#start").text();
-     this.stop =  $("#stop").text();
+     this.start = start;
+     this.stop =  stop;
      this.points = currRoutePoints;
      currRoutePoints = [];
 }
