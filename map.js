@@ -12,13 +12,16 @@ function initialize() {
         },
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude,
+                                                     position.coords.longitude);
+            map.setCenter(initialLocation);
+        });
+    }
+
     map = new google.maps.Map(document.getElementById('map-canvas'),
                               mapOptions);
-}
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        map.setCenter(initialLocation);
-    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
