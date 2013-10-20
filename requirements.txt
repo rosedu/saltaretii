@@ -1,5 +1,5 @@
 Babel==0.9.6
-Django==1.4.0
+Django==1.5.1
 IPy==0.75
 MySQL-python==1.2.3
 django-tastypie==0.9.11
@@ -12,5 +12,6 @@ pycurl==7.19.0
 python-dateutil==2.1
 pytz==2012d
 simplejson==3.2.0
+static==0.4
 six==1.4.1
 wsgiref==0.1.2
