@@ -57,5 +57,12 @@ html, body {
     margin-right: auto;
 }
 
+.routes-list {
+    margin-left: 40px;
+}
+.routes-list li a {
+    color: white;
+}
+
 .elevation_chart {
 }

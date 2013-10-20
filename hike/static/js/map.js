@@ -19,6 +19,7 @@ $('#undoPoint').on('click', undoPlaceMarker);
 
 // Change between search/create map.
 function changeActionMode(event) {
+    event.preventDefault();
 
     $button = $(event.currentTarget);
     $button.removeClass('btn-default').addClass('btn-primary');
@@ -32,11 +33,15 @@ function changeActionMode(event) {
         return;
     }
     current_action = next_action;
+
+    disableRouteInput();
     if (current_action == 'search_map') {
         placeListener.remove();
-        disableRouteInput();
+        $('#undoPoint').hide();
     } else {
+        clearMenuRouteItems();
         enableRouteInput();
+        $('#undoPoint').show();
     }
 }
 
@@ -73,7 +78,9 @@ function subDistance(a, b) {
     currDist -= google.maps.geometry.spherical.computeDistanceBetween(a, b);
 }
 
-function undoPlaceMarker() {
+function undoPlaceMarker(event) {
+    event.preventDefault();
+
      var x = currRoutePoints.pop();
      var y = currRoutePoints.pop();
 
@@ -87,6 +94,7 @@ function undoPlaceMarker() {
 }
 
 function submitMapForm(event) {
+    event.preventDefault();
 
     $start = $('.search-create #start');
     $stop = $('.search-create #stop');
@@ -283,6 +291,7 @@ function initialize() {
 
 function getRouteItems(start, stop) {
     $list = $('.menu-routes .routes-list');
+    clearMenuRouteItems();
 
     object = {}
     if (start) {
@@ -295,12 +304,17 @@ function getRouteItems(start, stop) {
     $.get('api/routes/', object, function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
-            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop +  " - " + '</a></li>';
+            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a><br /></li>';
             $list.append(route_item);
         }
         $('.route-item').click(clickRouteItem);
     });
 
+}
+
+function clearMenuRouteItems() {
+    $list = $('.menu-routes .routes-list');
+    $list.html('');
 }
 
 /* When you click on a route from right menu, you get it displayed. */
