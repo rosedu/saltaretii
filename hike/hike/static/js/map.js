@@ -2,7 +2,7 @@ var map, routeInput=false, placeListener;
 var currRoutePoints = [], iCanHazAPoly, markers = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
-
+//google.load('visualization', '1', {packages: ['columnchart']});  
 // Button bindings
 $('#addRoute').on('click', enableRouteInput);
 $('#saveRoute').on('click', submitRoute);
@@ -98,6 +98,57 @@ function getCoords(points) {
     return cords;
 }
 
+var elevator;
+var chart;
+var infowindow = new google.maps.InfoWindow();
+elevator = new google.maps.ElevationService();
+
+function drawElevation(points) {
+chart = new google.visualization.ColumnChart(document.getElementById('elevation_chart'));
+var elevPath = [];
+elevPath = getCoords(points);  
+var routeReq = {
+    'path': elevPath,
+    'samples': 256
+  }
+  elevator.getElevationAlongPath(routeReq, plotElevation);
+}
+
+function plotElevation(results, status) {
+  if (status != google.maps.ElevationStatus.OK) {
+    return;
+  }
+  var elevations = results;
+  
+  var elevationPath = [];
+  for (var i = 0; i < results.length; i++) {
+    elevationPath.push(elevations[i].location);
+  }
+
+  // Display a polyline of the elevation path.
+  var pathOptions = {
+    path: elevationPath,
+    strokeColor: '#0000CC',
+    opacity: 0.4,
+    map: map
+  }
+  var d = new google.visualization.DataTable();
+  data.addColumn('string', 'Sample');
+  data.addColumn('number', 'Elevation');
+  for (var i = 0; i < results.length; i++) {
+    d.addRow(['', elevations[i].elevation]);
+  }
+   // Draw the chart using the data within its DIV.
+  document.getElementById('elevation_chart').style.display = 'block';
+  chart.draw(d, {
+    height: 150,
+    legend: 'none',
+    titleY: 'Elevation (m)'
+  });
+}
+  
+//------------------------------------------------------------------//
+
 function drawRoute(points) {
     if (points === undefined) {
         console.log("Houston, we have a problem...");
@@ -180,6 +231,7 @@ function drawRouteMenuItems() {
 function clickRouteItem(event) {
     event.preventDefault();
     drawRoute($(event.currentTarget).data("points"));
+    drawElevation($(event.currentTarget).data("points"));
 }
 
 function saveRoutes(routes) {
