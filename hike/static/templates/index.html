@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="/static/css/map.css">
+    </head>
+    <body>
+       <div class="header">Title</div>
+        <div class="menu-right">
+            <div class="menu-add-route">
+                <span>Your menu</span>
+                <div><button id="addRoute">Add route</button></div>
+                <div style="display:none" id="routeInputPanel">
+                    <form>
+                        <span>Start</span>
+                        <input type="text" id="start"><br>
+                        <span>Stop</span>
+                        <input type="text" id="stop">
+                    </form>
+                     <button id="saveRoute">Save</button>
+                </div>
+            </div>
+            <br>
+            <div class="menu-routes">
+                <ul class="routes-list">Routes:</ul>
+            </div>
+        </div>
+        <div id="map-canvas"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/static/js/map.js"></script>
+    </body>
+</html>
