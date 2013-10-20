@@ -29,6 +29,44 @@ body {
 	margin-bottom: 0px;
 }
 
+ul{
+	margin: 0;
+	padding: 0; 
+	list-style-type: none;
+	list-style-image: none;
+}
+
+li {
+	display:inline;
+}
+
+#link_about {
+	background: url("../img/button_about.png");
+	text-indent:-9999px;
+	width: 45px;
+	height: 12px;
+	float: right;
+	margin-right: 68px;
+}
+
+#link_contact {
+	background: url("../img/button_contact.png");
+	text-indent:-9999px;
+	width: 65px;
+	height: 12px;
+	float:right;
+	margin-right: 68px;
+}
+
+#link_feedback {
+	background: url("../img/button_feedback.png");
+	text-indent:-9999px;
+	width: 30px;
+	height: 12px;
+	float: right;
+	padding-right: 41px;
+}
+
 #link_logo {
 	#cred ca float left merge
 }
