@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'frontend',
     'tastypie',
     'django.contrib.staticfiles',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
