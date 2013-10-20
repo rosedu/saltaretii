@@ -24,34 +24,17 @@
 
         <div class="menu-right">
             <div class="menu-add-route">
-                <span>Your menu</span>
-                <div><button id="addRoute">Add route</button></div>
+                <button class="btn" id="addRoute">Add a new route</button>
                 <div style="display:none" id="routeInputPanel">
                     <form>
-                        <span>Start</span>
-                        <input type="text" id="start"><br>
-                        <span>Stop</span>
-                        <input type="text" id="stop">
+                        <input type="text" autofocus="" id="start" placeholder="Start of route" class="form-control">
+                        <input type="text" id="stop" placeholder="End of route" class="form-control">
+                        <button type="submit" id="saveRoute" class="btn btn-lg btn-primary btn-block">Save</button>
                     </form>
-                    <button id="undoPoint">Undo marker</button>
-                    <button id="saveRoute">Save</button>
+                    <button type="submit" id="undoPoint" class="btn btn-lg" id="undoPoint">Undo marker</button>
                 </div>
             </div>
-            <br>
-            <div class="container">
-
-                  <form class="form-signin">
-                    <h2 class="form-signin-heading">Please sign in</h2>
-                    <input type="text" autofocus="" placeholder="Email address" class="form-control">
-                    <input type="password" placeholder="Password" class="form-control">
-                    <label class="checkbox">
-                      <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                    <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
-                  </form>
-
-            </div>
-
+            <br/>
             <div class="menu-routes">
                 <ul class="routes-list">Routes:</ul>
             </div>
