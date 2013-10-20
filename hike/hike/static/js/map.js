@@ -1,5 +1,5 @@
 var map, routeInput=false, placeListener;
-var currRoutePoints = [], iCanHazAPoly;
+var currRoutePoints = [], iCanHazAPoly, markers = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -17,6 +17,7 @@ function enableRouteInput(event) {
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
+         drawRoute(currRoutePoints);
      });
 }
 
@@ -76,7 +77,17 @@ function placeMarker(location) {
          map: map
          });
 
-    console.log(location);
+    markers.push(marker);
+}
+
+function clearMap() {
+    for (var i = 0; i < markers.length; ++i)
+        markers[i].setMap(null);
+
+    markers = [];
+
+    if (iCanHazAPoly)
+        iCanHazAPoly.setMap(null);
 }
 
 function drawRoute(points) {
@@ -91,8 +102,10 @@ function drawRoute(points) {
         routeCoords.push(new google.maps.LatLng(points[i][0], points[i][1]));
     }
 
-    if (iCanHazAPoly)
-        iCanHazAPoly.setMap(null);
+    clearMap();
+
+    placeMarker(routeCoords[0]);
+    placeMarker(routeCoords[routeCoords.length - 1]);
 
     iCanHazAPoly = new google.maps.Polyline({
        path: routeCoords,
