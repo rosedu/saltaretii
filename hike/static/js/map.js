@@ -1,9 +1,9 @@
 var map, routeInput=false, placeListener;
 var currRoutePoints = [], iCanHazAPoly, markers = [];
-var elevator;
-var chart;
+var elevator, chart;
 var infowindow = new google.maps.InfoWindow();
 elevator = new google.maps.ElevationService();
+var currDist = 0;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 google.load('visualization', '1', {packages: ['columnchart']});
@@ -23,12 +23,38 @@ function enableRouteInput(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
          drawRoute(currRoutePoints, false);
+         
+         var x = currRoutePoints.pop();
+         var y = currRoutePoints.pop();
+
+         if (y) {
+             addDistance(new google.maps.LatLng(x[0], x[1]), new google.maps.LatLng(y[0], y[1]));
+             currRoutePoints.push(y);
+             console.log("dist " + currDist);
+         }
+         currRoutePoints.push(x);
      });
 }
 
+function addDistance(a, b) {
+    currDist += google.maps.geometry.spherical.computeDistanceBetween(a, b);
+}
+
+function subDistance(a, b) {
+    currDist -= google.maps.geometry.spherical.computeDistanceBetween(a, b);
+}
+
 function undoPlaceMarker() {
-     currRoutePoints.pop();
+     var x = currRoutePoints.pop();
+     var y = currRoutePoints.pop();
+
+     if (y) {
+         subDistance(new google.maps.LatLng(x[0], x[1]), new google.maps.LatLng(y[0], y[1]));
+         currRoutePoints.push(y);
+         console.log("dist " + currDist);
+     }
      drawRoute(currRoutePoints, false);
+
 }
 
 function submitRoute() {
@@ -51,6 +77,7 @@ function submitRoute() {
 
      // Clean the current route
      currRoutePoints = [];
+     currDist = 0;
      routeInput = false;
      $("#routeInputPanel").hide();
 
@@ -79,6 +106,7 @@ function RouteObject(start, stop, points) {
      this.start = start;
      this.stop =  stop;
      this.points = currRoutePoints;
+     this.dist = currDist;
 }
 
 function placeMarker(location) {
@@ -95,6 +123,7 @@ function clearMap() {
         markers[i].setMap(null);
 
     markers = [];
+    currDist = 0;
 
     if (iCanHazAPoly)
         iCanHazAPoly.setMap(null);
@@ -235,7 +264,7 @@ function drawRouteMenuItems() {
     $.get('api/routes/', function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
-            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a></li>';
+            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop +  " - " + '</a></li>';
             $list.append(route_item);
         }
         $('.route-item').click(clickRouteItem);
@@ -248,6 +277,18 @@ function clickRouteItem(event) {
     event.preventDefault();
     drawRoute($(event.currentTarget).data("points"), true);
     drawElevation($(event.currentTarget).data("points"));
+    computeDist($(event.currentTarget).data("points"));
+}
+
+// Dirty function MUST BE REMOVED
+function computeDist(points) {
+    for (var i = 1; i < points.length; ++i) {
+       var x = new google.maps.LatLng(points[i - 1][0], points[i - 1][1]);
+       var y = new google.maps.LatLng(points[i][0], points[i][1]);
+
+       addDistance(x, y);
+    }
+    console.log(currDist);
 }
 
 function saveRoutes(routes) {
