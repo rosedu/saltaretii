@@ -304,7 +304,7 @@ function getRouteItems(start, stop) {
     $.get('api/routes/', object, function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
-            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop +  " - " + '</a></li>';
+            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a><br /></li>';
             $list.append(route_item);
         }
         $('.route-item').click(clickRouteItem);
