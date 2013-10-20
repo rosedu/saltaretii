@@ -1,12 +1,4 @@
 var map, routeInput=false, placeListener;
-gle.maps.Polyline({
-        path: flightPlanCoordinates,
-	       geodesic: true,
-		      strokeColor: '#FF0000',
-			     strokeOpacity: 1.0,
-				    strokeWeight: 2
-				      });
-
 var currRoutePoints = [];
 
 google.maps.event.addDomListener(window, 'load', initialize);
