@@ -1,5 +1,5 @@
 var map, routeInput=false, placeListener;
-var currRoutePoints = [];
+var currRoutePoints = [], iCanHazAPoly;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -91,7 +91,10 @@ function drawRoute(points) {
         routeCoords.push(new google.maps.LatLng(points[i][0], points[i][1]));
     }
 
-    var iCanHazAPoly = new google.maps.Polyline({
+    if (iCanHazAPoly)
+        iCanHazAPoly.setMap(null);
+
+    iCanHazAPoly = new google.maps.Polyline({
        path: routeCoords,
        geodesic: true,
        strokeColor: '#FF0000',
@@ -99,7 +102,6 @@ function drawRoute(points) {
        strokeWeight: 1.5
     });
 
-    // setAllMap(null);
     iCanHazAPoly.setMap(map);
 }
 
