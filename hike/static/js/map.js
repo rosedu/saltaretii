@@ -6,6 +6,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // Button bindings
 $('#addRoute').on('click', enableRouteInput);
 $('#saveRoute').on('click', submitRoute);
+$('#undoPoint').on('click', undoPlaceMarker);
 
 // Functions for button bindings
 function enableRouteInput(event) {
@@ -19,6 +20,11 @@ function enableRouteInput(event) {
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
          drawRoute(currRoutePoints, false);
      });
+}
+
+function undoPlaceMarker() {
+     currRoutePoints.pop();
+     drawRoute(currRoutePoints, false);
 }
 
 function submitRoute() {
@@ -90,7 +96,6 @@ function clearMap() {
         iCanHazAPoly.setMap(null);
 }
 
-<<<<<<< Updated upstream:hike/static/js/map.js
 function getCoords(points) {
     cords = [];
     for (var i = 0; i < points.length; ++i) {
