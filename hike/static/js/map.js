@@ -2,6 +2,7 @@ var map, routeInput=false, placeListener;
 var currRoutePoints = [], iCanHazAPoly, markers = [];
 var elevator;
 var chart;
+var relative_elevation_difference;
 var infowindow = new google.maps.InfoWindow();
 elevator = new google.maps.ElevationService();
 
@@ -151,6 +152,7 @@ function plotElevation(results, status) {
 		max = elevations[i].elevation;
 	}
   }
+  relative_elevation_difference = max - min;
   console.log(max-min);
    // Draw the chart using the data within its DIV.
   document.getElementById('elevation_chart').style.display = 'block';
