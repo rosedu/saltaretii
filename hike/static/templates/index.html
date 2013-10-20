@@ -24,15 +24,16 @@
 
         <div class="menu-right">
             <div class="menu-add-route">
-                <button class="btn" id="addRoute">Add a new route</button>
-                <div style="display:none" id="routeInputPanel">
-                    <form>
-                        <input type="text" autofocus="" id="start" placeholder="Start of route" class="form-control">
-                        <input type="text" id="stop" placeholder="End of route" class="form-control">
-                        <button type="submit" id="saveRoute" class="btn btn-lg btn-primary btn-block">Save</button>
-                    </form>
-                    <button type="submit" id="undoPoint" class="btn btn-lg" id="undoPoint">Undo marker</button>
+                <div class="menu-action-buttons">
+                    <button class="btn btn-primary" id="searchRoute">Search route</button>
+                    <button class="btn btn-default" id="addRoute">Add route</button>
                 </div>
+                <form class="search-create">
+                    <input type="text" autofocus="" id="start" placeholder="Start of route" class="form-control">
+                    <input type="text" id="stop" placeholder="End of route" class="form-control">
+                    <button type="submit" class="btn btn-primary btn-block">Go</button>
+                </form>
+                <button id="undoPoint" class="btn btn-lg btn-default" id="undoPoint">Undo marker</button>
             </div>
             <br/>
             <div class="menu-routes">
@@ -46,8 +47,7 @@
         <div id="footer">
 		     <div id="footer_img"></div>
 		</div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry&sensor=true"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
