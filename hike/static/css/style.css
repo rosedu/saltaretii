@@ -70,3 +70,12 @@ body {
 	left:0;
 	right:0;
 }
+
+#footer_img {
+	background: url("/static/img/footer_background.jpg");
+	height: 699px;
+	position:absolute;
+	left: 0;
+	right: 0;
+}
+	
