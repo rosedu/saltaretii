@@ -140,9 +140,18 @@ function plotElevation(results, status) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Sample');
   data.addColumn('number', 'Elevation');
+  var min = elevations[0].elevation;
+  var max = elevations[0].elevation;
   for (var i = 0; i < results.length; i++) {
     data.addRow(['', elevations[i].elevation]);
+    if(min > elevations[i].elevation) {
+		min = elevations[i].elevation;
+	}
+	if(max < elevations[i].elevation) {
+		max = elevations[i].elevation;
+	}
   }
+  console.log(max-min);
    // Draw the chart using the data within its DIV.
   document.getElementById('elevation_chart').style.display = 'block';
   chart.draw(data, {
