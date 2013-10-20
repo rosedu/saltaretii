@@ -35,8 +35,10 @@ function changeActionMode(event) {
     if (current_action == 'search_map') {
         placeListener.remove();
         disableRouteInput();
+        $('#undoPoint').hide();
     } else {
         enableRouteInput();
+        $('#undoPoint').show();
     }
 }
 
