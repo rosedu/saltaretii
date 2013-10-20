@@ -1,0 +1,72 @@
+body {
+	text-align: center;
+	background: #206f70;
+	font-family: helvetica;
+	padding: 0;
+}
+
+#body_top {
+	background: url("body_top.jpg");
+	height: 10px;
+	position:absolute;
+	left:0;
+	right:0;
+	margin: -10px 0;
+}
+
+#top {
+	background: url("top_background.jpg");
+    background-size: cover;
+	height: 96px;
+	width: 900px;
+	margin: 0px auto;
+}
+
+#under_top {
+	background: url("under_top.jpg");
+	height: 2px;
+	position:absolute;
+	left:0;
+	right:0;
+}
+
+#link_logo {
+	#cred ca float left merge
+}
+
+#link_about {
+	#needs experimenting and shit
+}
+
+#link_contact {
+	#needs experimenting and shit
+}
+
+#link_feedback {
+	#needs experimenting and shit
+}
+
+#under_top {
+	# needs to stretch the fuck out the whole window width
+}
+
+#sidebar_right {
+	background: rgba(0, 51, 51, 0.83);
+	
+}
+
+#map_under {
+	background: url("map_under.jpg");
+	height: 2px;
+	position:absolute;
+	left:0;
+	right:0;
+}
+
+#footer {
+	background: #4c3a08;
+	height: 699px;
+	position:absolute;
+	left:0;
+	right:0;
+}
