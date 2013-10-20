@@ -19,6 +19,7 @@ $('#undoPoint').on('click', undoPlaceMarker);
 
 // Change between search/create map.
 function changeActionMode(event) {
+    event.preventDefault();
 
     $button = $(event.currentTarget);
     $button.removeClass('btn-default').addClass('btn-primary');
@@ -37,6 +38,7 @@ function changeActionMode(event) {
         disableRouteInput();
         $('#undoPoint').hide();
     } else {
+        clearRouteItems();
         enableRouteInput();
         $('#undoPoint').show();
     }
@@ -75,7 +77,9 @@ function subDistance(a, b) {
     currDist -= google.maps.geometry.spherical.computeDistanceBetween(a, b);
 }
 
-function undoPlaceMarker() {
+function undoPlaceMarker(event) {
+    event.preventDefault();
+
      var x = currRoutePoints.pop();
      var y = currRoutePoints.pop();
 
@@ -89,6 +93,7 @@ function undoPlaceMarker() {
 }
 
 function submitMapForm(event) {
+    event.preventDefault();
 
     $start = $('.search-create #start');
     $stop = $('.search-create #stop');
@@ -285,6 +290,7 @@ function initialize() {
 
 function getRouteItems(start, stop) {
     $list = $('.menu-routes .routes-list');
+    clearRouteItems();
 
     object = {}
     if (start) {
@@ -303,6 +309,11 @@ function getRouteItems(start, stop) {
         $('.route-item').click(clickRouteItem);
     });
 
+}
+
+function clearRouteItems() {
+    $list = $('.menu-routes .routes-list');
+    $list.html('');
 }
 
 /* When you click on a route from right menu, you get it displayed. */
