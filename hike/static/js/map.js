@@ -90,7 +90,6 @@ function clearMap() {
         iCanHazAPoly.setMap(null);
 }
 
-<<<<<<< Updated upstream:hike/static/js/map.js
 function getCoords(points) {
     cords = [];
     for (var i = 0; i < points.length; ++i) {
