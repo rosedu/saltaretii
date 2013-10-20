@@ -90,6 +90,14 @@ function clearMap() {
         iCanHazAPoly.setMap(null);
 }
 
+function getCoords(points) {
+    cords = [];
+    for (var i = 0; i < points.length; ++i) {
+        cords.push(new google.maps.LatLng(points[i][0], points[i][1]));
+    }
+    return cords;
+}
+
 function drawRoute(points) {
     if (points === undefined) {
         console.log("Houston, we have a problem...");
@@ -98,10 +106,8 @@ function drawRoute(points) {
 
     var routeCoords = [];
 
-    for (var i = 0; i < points.length; ++i) {
-        routeCoords.push(new google.maps.LatLng(points[i][0], points[i][1]));
-    }
 
+	routeCoords = getCoords(points);
     clearMap();
 
     placeMarker(routeCoords[0]);
