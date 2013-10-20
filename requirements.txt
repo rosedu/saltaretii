@@ -9,7 +9,6 @@ mimeparse==0.1.3
 pycurl==7.19.0
 python-dateutil==2.1
 pytz==2012d
-pyxattr==0.5.1
 simplejson==3.2.0
 six==1.4.1
 wsgiref==0.1.2
