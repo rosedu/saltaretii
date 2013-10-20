@@ -1,11 +1,16 @@
 var map, routeInput=false, placeListener;
 var currRoutePoints = [], iCanHazAPoly, markers = [];
+var elevator;
+var chart;
+var infowindow = new google.maps.InfoWindow();
+elevator = new google.maps.ElevationService();
 
 google.maps.event.addDomListener(window, 'load', initialize);
-
+google.load('visualization', '1', {packages: ['columnchart']});
 // Button bindings
 $('#addRoute').on('click', enableRouteInput);
 $('#saveRoute').on('click', submitRoute);
+$('#undoPoint').on('click', undoPlaceMarker);
 
 // Functions for button bindings
 function enableRouteInput(event) {
@@ -17,8 +22,13 @@ function enableRouteInput(event) {
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-         drawRoute(currRoutePoints);
+         drawRoute(currRoutePoints, false);
      });
+}
+
+function undoPlaceMarker() {
+     currRoutePoints.pop();
+     drawRoute(currRoutePoints, false);
 }
 
 function submitRoute() {
@@ -98,7 +108,53 @@ function getCoords(points) {
     return cords;
 }
 
-function drawRoute(points) {
+function drawElevation(points) {
+    chart = new google.visualization.ColumnChart(document.getElementById('elevation_chart'));
+    var elevPath = [];
+    elevPath = getCoords(points);
+    var routeReq = {
+        'path': elevPath,
+        'samples': 256
+    };
+    elevator.getElevationAlongPath(routeReq, plotElevation);
+}
+
+function plotElevation(results, status) {
+  if (status != google.maps.ElevationStatus.OK) {
+    return;
+  }
+  var elevations = results;
+
+  var elevationPath = [];
+  for (var i = 0; i < results.length; i++) {
+    elevationPath.push(elevations[i].location);
+  }
+
+  // Display a polyline of the elevation path.
+  var pathOptions = {
+    path: elevationPath,
+    strokeColor: '#0000CC',
+    opacity: 0.4,
+    map: map
+  }
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Sample');
+  data.addColumn('number', 'Elevation');
+  for (var i = 0; i < results.length; i++) {
+    data.addRow(['', elevations[i].elevation]);
+  }
+   // Draw the chart using the data within its DIV.
+  document.getElementById('elevation_chart').style.display = 'block';
+  chart.draw(data, {
+    height: 150,
+    legend: 'none',
+    titleY: 'Elevation (m)'
+  });
+}
+  
+//------------------------------------------------------------------//
+
+function drawRoute(points, center) {
     if (points === undefined) {
         console.log("Houston, we have a problem...");
         return;
@@ -107,7 +163,7 @@ function drawRoute(points) {
     var routeCoords = [];
 
 
-	routeCoords = getCoords(points);
+    routeCoords = getCoords(points);
     clearMap();
 
     placeMarker(routeCoords[0]);
@@ -122,7 +178,9 @@ function drawRoute(points) {
     });
 
     iCanHazAPoly.setMap(map);
-    map.setCenter(routeCoords[0]);
+
+    if (center === true)
+        map.setCenter(routeCoords[0]);
 }
 
 function clearRoute() {
@@ -179,7 +237,8 @@ function drawRouteMenuItems() {
 /* When you click on a route from right menu, you get it displayed. */
 function clickRouteItem(event) {
     event.preventDefault();
-    drawRoute($(event.currentTarget).data("points"));
+    drawRoute($(event.currentTarget).data("points"), true);
+    drawElevation($(event.currentTarget).data("points"));
 }
 
 function saveRoutes(routes) {
