@@ -17,7 +17,7 @@ function enableRouteInput(event) {
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
          placeMarker(event.latLng);
          currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-         drawRoute(currRoutePoints);
+         drawRoute(currRoutePoints, false);
      });
 }
 
@@ -90,6 +90,7 @@ function clearMap() {
         iCanHazAPoly.setMap(null);
 }
 
+<<<<<<< Updated upstream:hike/static/js/map.js
 function getCoords(points) {
     cords = [];
     for (var i = 0; i < points.length; ++i) {
@@ -149,7 +150,7 @@ function plotElevation(results, status) {
   
 //------------------------------------------------------------------//
 
-function drawRoute(points) {
+function drawRoute(points, center) {
     if (points === undefined) {
         console.log("Houston, we have a problem...");
         return;
@@ -158,7 +159,7 @@ function drawRoute(points) {
     var routeCoords = [];
 
 
-	routeCoords = getCoords(points);
+    routeCoords = getCoords(points);
     clearMap();
 
     placeMarker(routeCoords[0]);
@@ -173,7 +174,9 @@ function drawRoute(points) {
     });
 
     iCanHazAPoly.setMap(map);
-    map.setCenter(routeCoords[0]);
+
+    if (center === true)
+        map.setCenter(routeCoords[0]);
 }
 
 function clearRoute() {
@@ -230,7 +233,7 @@ function drawRouteMenuItems() {
 /* When you click on a route from right menu, you get it displayed. */
 function clickRouteItem(event) {
     event.preventDefault();
-    drawRoute($(event.currentTarget).data("points"));
+    drawRoute($(event.currentTarget).data("points"), true);
     drawElevation($(event.currentTarget).data("points"));
 }
 
