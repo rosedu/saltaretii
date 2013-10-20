@@ -47,6 +47,7 @@ li {
 	height: 12px;
 	float: right;
 	margin-right: 68px;
+	margin-top: 48px;
 }
 
 #link_contact {
@@ -56,6 +57,7 @@ li {
 	height: 12px;
 	float:right;
 	margin-right: 68px;
+	margin-top: 48px;
 }
 
 #link_feedback {
@@ -64,7 +66,8 @@ li {
 	width: 30px;
 	height: 12px;
 	float: right;
-	padding-right: 41px;
+	padding-right: 70px;
+	margin-top: 48px;
 }
 
 #link_logo {
