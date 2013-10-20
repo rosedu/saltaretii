@@ -34,7 +34,9 @@ function submitRoute() {
 
      placeListener.remove();
      saveRoutes(newRoute);
-     drawRoute(newRoute);
+     if (newRoute && newRoute.points !== undefined) {
+        drawRoute(newRoute.points);
+    }
 
      // Clean the current route
      currRoutePoints = [];
@@ -77,16 +79,17 @@ function placeMarker(location) {
     console.log(location);
 }
 
-function drawRoute(newRoute) {
-    if (typeof newRoute == "undefined") {
-        console.log("Huston, we have a problem...");
+function drawRoute(points) {
+    if (points === undefined) {
+        console.log("Houston, we have a problem...");
         return;
     }
 
     var routeCoords = [];
 
-    for (var i = 0; i < newRoute.points.length; ++i)
-        routeCoords.push(new google.maps.LatLng(newRoute.points[i][0], newRoute.points[i][1]));
+    for (var i = 0; i < points.length; ++i) {
+        routeCoords.push(new google.maps.LatLng(points[i][0], points[i][1]));
+    }
 
     var iCanHazAPoly = new google.maps.Polyline({
        path: routeCoords,
@@ -96,7 +99,7 @@ function drawRoute(newRoute) {
        strokeWeight: 1.5
     });
 
-    setAllMap(null);
+    // setAllMap(null);
     iCanHazAPoly.setMap(map);
 }
 
@@ -135,40 +138,28 @@ function initialize() {
 
 function drawElements() {
     // Do GET api call and fetch routes.
-    drawRoutes();
+    drawRouteMenuItems();
 }
 
-function drawRoutes() {
+function drawRouteMenuItems() {
     $list = $('.menu-routes .routes-list');
     $.get('api/routes/', function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
-            route_item = '<li><a href="#" class="routes-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a></li>';
+            route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop + '</a></li>';
             $list.append(route_item);
         }
-        $('.routes-item').click(drawRoute);
+        $('.route-item').click(clickRouteItem);
     });
 
 }
 
-function drawRoute(event) {
-    //map.clearOverlays(); //TODO: check if this works   
-    points = $(event.currentTarget).data("points");
-	var coords = [];
-	for (var i = 0; i < points.length; ++i) {
-		coords.push(new google.maps.LatLng(points[i][0], points[i][1]));
-	}
-    var polyline_route = new google.maps.Polyline({
-    path: coords,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-	polyline_route.setMap(map);
-    return false;
+/* When you click on a route from right menu, you get it displayed. */
+function clickRouteItem(event) {
+    event.preventDefault();
+    drawRoute($(event.currentTarget).data("points"));
 }
-    
+
 function saveRoutes(routes) {
     $.ajax({
         type: 'POST',
