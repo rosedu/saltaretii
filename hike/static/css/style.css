@@ -5,8 +5,8 @@ body {
 	padding: 0;
 }
 
-#body_top {
-	background: url("body_top.jpg");
+#header_top {
+	background: url("/static/img/body_top.jpg");
 	height: 10px;
 	position:absolute;
 	left:0;
@@ -14,16 +14,16 @@ body {
 	margin: -10px 0;
 }
 
-#top {
-	background: url("top_background.jpg");
+.header {
+	background: url("/static/img/top_background.jpg");
     background-size: cover;
 	height: 96px;
 	width: 900px;
 	margin: 0px auto;
 }
 
-#under_top {
-	background: url("under_top.jpg");
+#under_header {
+	background: url("/static/img/under_top.jpg");
 	height: 2px;
 	position:absolute;
 	left:0;
@@ -56,7 +56,7 @@ body {
 }
 
 #map_under {
-	background: url("map_under.jpg");
+	background: url("/static/img/map_under.jpg");
 	height: 2px;
 	position:absolute;
 	left:0;

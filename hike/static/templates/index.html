@@ -5,9 +5,20 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="/static/css/map.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     </head>
     <body>
-       <div class="header">Title</div>
+
+        <div id="header_top"></div>
+        <div class="header">
+            <img src="logo" />
+            <a id="link_logo" href="/">
+            <a id="link_about" href="#about">
+            <a id="link_contact" href="#contact">
+            <a id="link_feedback" href="#contact">
+        </div>
+        <div id="under_header"></div>
+
         <div class="menu-right">
             <div class="menu-add-route">
                 <span>Your menu</span>
@@ -30,6 +41,10 @@
         </div>
         <div id="map-canvas"></div>
         <div id="elevation_chart"></div>
+
+        <div id="map_under"></div>
+        <div id="footer"></div>
+
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
