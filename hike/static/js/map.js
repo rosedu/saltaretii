@@ -33,12 +33,13 @@ function changeActionMode(event) {
         return;
     }
     current_action = next_action;
+
+    disableRouteInput();
     if (current_action == 'search_map') {
         placeListener.remove();
-        disableRouteInput();
         $('#undoPoint').hide();
     } else {
-        clearRouteItems();
+        clearMenuRouteItems();
         enableRouteInput();
         $('#undoPoint').show();
     }
@@ -290,7 +291,7 @@ function initialize() {
 
 function getRouteItems(start, stop) {
     $list = $('.menu-routes .routes-list');
-    clearRouteItems();
+    clearMenuRouteItems();
 
     object = {}
     if (start) {
@@ -311,7 +312,7 @@ function getRouteItems(start, stop) {
 
 }
 
-function clearRouteItems() {
+function clearMenuRouteItems() {
     $list = $('.menu-routes .routes-list');
     $list.html('');
 }
