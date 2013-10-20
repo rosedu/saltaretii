@@ -71,9 +71,10 @@ li {
 }
 
 .facebook_like{
-	position: fixed;
+	position: relative;
 	bottom: 0px;
-	left: 50%;
+	margin-top: 250px;
+	margin-left: -25px;
 }
 
 #link_logo {
