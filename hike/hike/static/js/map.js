@@ -116,6 +116,7 @@ function drawRoute(points) {
     });
 
     iCanHazAPoly.setMap(map);
+    map.setCenter(routeCoords[0]);
 }
 
 function clearRoute() {
