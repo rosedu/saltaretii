@@ -4,6 +4,9 @@
         <title>Simple Map</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/map.css">
         <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     </head>
@@ -35,6 +38,20 @@
                 </div>
             </div>
             <br>
+            <div class="container">
+
+                  <form class="form-signin">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <input type="text" autofocus="" placeholder="Email address" class="form-control">
+                    <input type="password" placeholder="Password" class="form-control">
+                    <label class="checkbox">
+                      <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+                  </form>
+
+            </div>
+
             <div class="menu-routes">
                 <ul class="routes-list">Routes:</ul>
             </div>
@@ -49,7 +66,11 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
     <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="/static/js/map.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
     </body>
 </html>
