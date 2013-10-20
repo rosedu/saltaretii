@@ -39,7 +39,7 @@ html, body {
     margin-right: auto;
 }
 
-#addRoute {
+.menu-action-buttons {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -47,6 +47,14 @@ html, body {
 .menu-routes {
     float: left;
     margin-top: 10px;
+}
+
+.search-create button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .elevation_chart {
