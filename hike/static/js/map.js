@@ -7,15 +7,29 @@ var infowindow = new google.maps.InfoWindow();
 elevator = new google.maps.ElevationService();
 var currDist = 0;
 
+// The active action one does when pushing go.
+var current_action = "search_map";
+
 google.maps.event.addDomListener(window, 'load', initialize);
 google.load('visualization', '1', {packages: ['columnchart']});
 // Button bindings
-$('#addRoute').on('click', enableRouteInput);
-$('#saveRoute').on('click', submitRoute);
+$('.action_change').on('click', changeActionMode);
+$('.search-create button').on('click', submitMapForm);
 $('#undoPoint').on('click', undoPlaceMarker);
 
 // Functions for button bindings
-function enableRouteInput(event) {
+function changeActionMode(event) {
+
+    // TODO Toggle the color of the buttons
+    // change_buttons_state();
+
+    // Switch between states.
+    if (current_action == "search_map") {
+        current_action = "create_map";
+    } else {
+        current_action = "search_map";
+    }
+
      if (routeInput == true)
          return;
 
@@ -46,6 +60,18 @@ function subDistance(a, b) {
     currDist -= google.maps.geometry.spherical.computeDistanceBetween(a, b);
 }
 
+function toggleMapAnnotation() {
+    if (current_action === "search_map") {
+        placeListener.remove();
+    } else if (current_action === "create_map") {
+         placeListener = google.maps.event.addListener(map, 'click', function(event) {
+             placeMarker(event.latLng);
+             currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
+             drawRoute(currRoutePoints, false);
+         });
+    }
+}
+
 function undoPlaceMarker() {
      var x = currRoutePoints.pop();
      var y = currRoutePoints.pop();
@@ -59,7 +85,16 @@ function undoPlaceMarker() {
 
 }
 
-function submitRoute() {
+function submitMapForm(event) {
+
+    $start = $('.search-create #start');
+    $stop = $('.search-create #stop');
+
+    if (current_action === "search_map") {
+        getRouteItems($start.val(), $stop.val());
+        return;
+    }
+
      if (routeInput == false)
          return;
 
@@ -253,18 +288,20 @@ function initialize() {
 
     map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
-
-    drawElements();
 }
 
-function drawElements() {
-    // Do GET api call and fetch routes.
-    drawRouteMenuItems();
-}
-
-function drawRouteMenuItems() {
+function getRouteItems(start, stop) {
     $list = $('.menu-routes .routes-list');
-    $.get('api/routes/', function(data) {
+
+    object = {}
+    if (start) {
+        object['start'] = start;
+    }
+    if (stop) {
+        object['stop'] = stop;
+    }
+
+    $.get('api/routes/', object, function(data) {
         for (var i = 0; i < data.objects.length; ++i) {
             route = data.objects[i];
             route_item = '<li><a href="#" class="route-item" data-points="' + route.points + '">' + route.start + " - " + route.stop +  " - " + '</a></li>';
