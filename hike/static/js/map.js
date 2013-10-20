@@ -17,39 +17,52 @@ $('.action_change').on('click', changeActionMode);
 $('.search-create button').on('click', submitMapForm);
 $('#undoPoint').on('click', undoPlaceMarker);
 
-// Functions for button bindings
+// Change between search/create map.
 function changeActionMode(event) {
 
-    // TODO Toggle the color of the buttons
-    // change_buttons_state();
+    $button = $(event.currentTarget);
+    $button.removeClass('btn-default').addClass('btn-primary');
+    $sibling = $($button.siblings()[0]);
+    $sibling.removeClass('btn-primary').addClass('btn-default');
+
+    next_action = $button.data('action');
 
     // Switch between states.
-    if (current_action == "search_map") {
-        current_action = "create_map";
-    } else {
-        current_action = "search_map";
+    if (current_action == next_action) {
+        return;
     }
+    current_action = next_action;
+    if (current_action == 'search_map') {
+        placeListener.remove();
+        disableRouteInput();
+    } else {
+        enableRouteInput();
+    }
+}
 
-     if (routeInput == true)
-         return;
-
-     routeInput = true;
-     $("#routeInputPanel").show();
+function enableRouteInput() {
      placeListener = google.maps.event.addListener(map, 'click', function(event) {
-         placeMarker(event.latLng);
-         currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-         drawRoute(currRoutePoints, false);
-         
-         var x = currRoutePoints.pop();
-         var y = currRoutePoints.pop();
+     placeMarker(event.latLng);
+     currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
+     drawRoute(currRoutePoints, false);
 
-         if (y) {
-             addDistance(new google.maps.LatLng(x[0], x[1]), new google.maps.LatLng(y[0], y[1]));
-             currRoutePoints.push(y);
-             console.log("dist " + currDist);
-         }
-         currRoutePoints.push(x);
-     });
+     var x = currRoutePoints.pop();
+     var y = currRoutePoints.pop();
+
+     if (y) {
+         addDistance(new google.maps.LatLng(x[0], x[1]), new google.maps.LatLng(y[0], y[1]));
+         currRoutePoints.push(y);
+         console.log("dist " + currDist);
+     }
+     currRoutePoints.push(x);
+ });
+}
+
+function disableRouteInput() {
+    // Clean the current route
+    currRoutePoints = [];
+    currDist = 0;
+    clearMap();
 }
 
 function addDistance(a, b) {
@@ -58,18 +71,6 @@ function addDistance(a, b) {
 
 function subDistance(a, b) {
     currDist -= google.maps.geometry.spherical.computeDistanceBetween(a, b);
-}
-
-function toggleMapAnnotation() {
-    if (current_action === "search_map") {
-        placeListener.remove();
-    } else if (current_action === "create_map") {
-         placeListener = google.maps.event.addListener(map, 'click', function(event) {
-             placeMarker(event.latLng);
-             currRoutePoints.push([event.latLng.lat(), event.latLng.lng()]);
-             drawRoute(currRoutePoints, false);
-         });
-    }
 }
 
 function undoPlaceMarker() {
@@ -93,31 +94,21 @@ function submitMapForm(event) {
     if (current_action === "search_map") {
         getRouteItems($start.val(), $stop.val());
         return;
+    // We create the map.
+    } else {
+         newRoute = new RouteObject($("#start").val(), $("#stop").val(), currRoutePoints);
+
+         if (checkRouteSanity(newRoute) == false) {
+             console.log("iese");
+             return;
+
+         }
+         saveRoutes(newRoute);
+         if (newRoute && newRoute.points !== undefined) {
+            drawRoute(newRoute.points);
+        }
+        disableRouteInput();
     }
-
-     if (routeInput == false)
-         return;
-
-     newRoute = new RouteObject($("#start").val(), $("#stop").val(), currRoutePoints);
-
-     if (checkRouteSanity(newRoute) == false) {
-         console.log("iese");
-         return;
-
-     }
-
-     placeListener.remove();
-     saveRoutes(newRoute);
-     if (newRoute && newRoute.points !== undefined) {
-        drawRoute(newRoute.points);
-    }
-
-     // Clean the current route
-     currRoutePoints = [];
-     currDist = 0;
-     routeInput = false;
-     $("#routeInputPanel").hide();
-
 }
 
 function checkRouteSanity(RouteObject) {
