@@ -70,6 +70,12 @@ li {
 	margin-top: 48px;
 }
 
+.facebook_like{
+	position: fixed;
+	bottom: 0px;
+	left: 50%;
+}
+
 #link_logo {
 	#cred ca float left merge
 }
