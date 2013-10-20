@@ -4,6 +4,9 @@
         <title>Simple Map</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/map.css">
         <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     </head>
@@ -11,30 +14,27 @@
 
         <div id="header_top"></div>
         <div class="header">
-            <img src="logo" />
-            <a id="link_logo" href="/">
-            <a id="link_about" href="#about">
-            <a id="link_contact" href="#contact">
-            <a id="link_feedback" href="#contact">
+            <a id="link_logo" href="/"></a>
+            <a id="link_about" href="#about"></a>
+            <a id="link_contact" href="#contact"></a>
+            <a id="link_feedback" href="#contact"></a>
         </div>
         <div id="under_header"></div>
 
         <div class="menu-right">
             <div class="menu-add-route">
-                <span>Your menu</span>
-                <div><button id="addRoute">Add route</button></div>
-                <div style="display:none" id="routeInputPanel">
-                    <form>
-                        <span>Start</span>
-                        <input type="text" id="start"><br>
-                        <span>Stop</span>
-                        <input type="text" id="stop">
-                    </form>
-                    <button id="undoPoint">Undo marker</button>
-                    <button id="saveRoute">Save</button>
+                <div class="menu-action-buttons">
+                    <button class="btn btn-primary" id="searchRoute">Search route</button>
+                    <button class="btn btn-default" id="addRoute">Add route</button>
                 </div>
+                <form class="search-create">
+                    <input type="text" autofocus="" id="start" placeholder="Start of route" class="form-control">
+                    <input type="text" id="stop" placeholder="End of route" class="form-control">
+                    <button type="submit" class="btn btn-primary btn-block">Go</button>
+                </form>
+                <button id="undoPoint" class="btn btn-lg btn-default" id="undoPoint">Undo marker</button>
             </div>
-            <br>
+            <br/>
             <div class="menu-routes">
                 <ul class="routes-list">Routes:</ul>
             </div>
@@ -48,7 +48,11 @@
 		</div>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry&sensor=true"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
     <script type="text/javascript" src="/static/js/libs/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="/static/js/map.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
     </body>
 </html>

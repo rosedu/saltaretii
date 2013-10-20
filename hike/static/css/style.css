@@ -34,19 +34,18 @@ body {
 }
 
 #link_about {
-	#needs experimenting and shit
+	background: url("/static/img/button_about.png");
 }
 
 #link_contact {
-	#needs experimenting and shit
+	background: url("/static/img/button_contact.png");
 }
 
 #link_feedback {
-	#needs experimenting and shit
+	background: url("/static/img/button_feedback.png");
 }
 
 #under_top {
-	# needs to stretch the fuck out the whole window width
 }
 
 #sidebar_right {
